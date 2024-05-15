@@ -1,8 +1,39 @@
-import styles from './App.module.css'
-import { Header } from './components/Header'
-import { Post } from './components/Post'
-import { Sidebar } from './components/Sidebar'
-import './global.css'
+import styles from "./App.module.css";
+import { Header } from "./components/Header";
+import { Post } from "./components/Post";
+import { Sidebar } from "./components/Sidebar";
+import "./global.css";
+
+const posts = [
+  {
+    id: 1,
+    author: {
+      avatarUrl: "https://github.com/PetersonMunuera.png",
+      name: "Peterson Munuera",
+      role: "Web Developer",
+    },
+    content: [
+      { type: "paragraph", content: "Fala galeraa 👋" },
+      { type: "paragraph", content: "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀", },
+      { type: "link", content: "jane.design/doctorcare" },
+    ],
+    publishedAt: new Date("2024-05-15 17:30:00"),
+  },
+  {
+    id: 2,
+    author: {
+      avatarUrl: "https://github.com/thofurtado.png",
+      name: "Thomas Furtado",
+      role: "UX Designer",
+    },
+    content: [
+      { type: "paragraph", content: "Fala galeraa 👋" },
+      { type: "paragraph", content: "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀", },
+      { type: "link", content: "jane.design/doctorcare" },
+    ],
+    publishedAt: new Date("2024-05-10 12:42:00"),
+  },
+];
 
 function App() {
   return (
@@ -13,13 +44,18 @@ function App() {
         <Sidebar />
 
         <main>
-          <Post />
-          <Post />
-          <Post />
+          {posts.map((post) => (
+            <Post
+              key={post.id}
+              author={post.author}
+              content={post.content}
+              publishedAt={post.publishedAt}
+            />
+          ))}
         </main>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
