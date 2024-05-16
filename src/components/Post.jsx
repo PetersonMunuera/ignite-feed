@@ -6,36 +6,55 @@ import { Comment } from "./Comment";
 import styles from "./Post.module.css";
 
 export function Post({ author, content, publishedAt }) {
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState([]);
 
-  const [newCommentText, setNewCommentText] = useState('')
+  const [newCommentText, setNewCommentText] = useState("");
 
-  const publishedAtFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
-    locale: ptBR
-  })
+  const publishedAtFormatted = format(
+    publishedAt,
+    "d 'de' LLLL 'às' HH:mm'h'",
+    {
+      locale: ptBR,
+    }
+  );
 
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
     addSuffix: true,
-  })
+  });
 
   function handleCreateComment() {
-    event.preventDefault()
+    event.preventDefault();
 
-    setComments([...comments, newCommentText])
-    setNewCommentText('')
+    setComments([...comments, newCommentText]);
+    setNewCommentText("");
   }
 
   function handleNewCommentChange() {
-    setNewCommentText(event.target.value)
+    setNewCommentText(event.target.value);
+    event.target.setCustomValidity('')
   }
+
+  function handleInvalidComment() {
+    event.target.setCustomValidity('Campo obrigatório')
+  }
+
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeletedOne = comments.filter(comment => {
+      return comment !== commentToDelete
+    })
+    
+    setComments(commentsWithoutDeletedOne)
+  }
+
+  const isCommentTextEmpty = newCommentText.length === 0
 
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
           <Avatar src={author.avatarUrl} />
-          
+
           <div className={styles.authorInfo}>
             <strong>{author.name}</strong>
             <span>{author.role}</span>
@@ -48,13 +67,17 @@ export function Post({ author, content, publishedAt }) {
       </header>
 
       <div className={styles.content}>
-        {content.map(line => {
-          const { type, content } = line
-          
-          if (type === 'paragraph') {
-            return <p key={content}>{content}</p>
-          } else if (type === 'link') {
-            return <p key={content}><a href="">{content}</a></p>
+        {content.map((line) => {
+          const { type, content } = line;
+
+          if (type === "paragraph") {
+            return <p key={content}>{content}</p>;
+          } else if (type === "link") {
+            return (
+              <p key={content}>
+                <a href="">{content}</a>
+              </p>
+            );
           }
         })}
       </div>
@@ -62,20 +85,26 @@ export function Post({ author, content, publishedAt }) {
       <form onSubmit={handleCreateComment} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
-        <textarea 
+        <textarea
           value={newCommentText}
           onChange={handleNewCommentChange}
           placeholder="Deixe um comentário"
+          required
+          onInvalid={handleInvalidComment}
         />
 
         <footer>
-          <button type="submit">Publicar</button>
+          <button disabled={isCommentTextEmpty} type="submit">Publicar</button>
         </footer>
       </form>
 
       <div className={styles.commentList}>
-        {comments.map(comment => (
-          <Comment key={comment} content={comment} />
+        {comments.map((comment) => (
+          <Comment
+            key={comment}
+            content={comment}
+            onDeleteComment={deleteComment}
+          />
         ))}
       </div>
     </article>
