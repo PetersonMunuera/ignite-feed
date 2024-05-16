@@ -8,9 +8,9 @@ const posts = [
   {
     id: 1,
     author: {
-      avatarUrl: "https://github.com/PetersonMunuera.png",
-      name: "Peterson Munuera",
-      role: "Web Developer",
+      avatarUrl: "https://github.com/thofurtado.png",
+      name: "Thomas Furtado",
+      role: "UX Designer",
     },
     content: [
       { type: "paragraph", content: "Fala galeraa 👋" },
@@ -22,9 +22,9 @@ const posts = [
   {
     id: 2,
     author: {
-      avatarUrl: "https://github.com/thofurtado.png",
-      name: "Thomas Furtado",
-      role: "UX Designer",
+      avatarUrl: "https://github.com/PetersonMunuera.png",
+      name: "Peterson Munuera",
+      role: "Web Developer",
     },
     content: [
       { type: "paragraph", content: "Fala galeraa 👋" },
