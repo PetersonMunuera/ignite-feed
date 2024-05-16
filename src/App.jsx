@@ -44,7 +44,7 @@ function App() {
         <Sidebar />
 
         <main>
-          {posts.map((post) => (
+          {posts.map(post => (
             <Post
               key={post.id}
               author={post.author}
